@@ -2,7 +2,7 @@
   <div id="app">
     <TodoHeader :addTodo="addTodo"/>
     <TodoMain :todos='todos' :delTodo="delTodo"/>
-    <TodoFooter :todos='todos'/>
+    <TodoFooter :todos='todos' :delCheck="delCheck" :checkAll="checkAll"/>
   </div>
 </template>
 
@@ -16,12 +16,17 @@ export default {
   components: {TodoHeader, TodoMain, TodoFooter},
   data () {
     return {
-      todos: [
-        {title: '吃饭', complete: true},
-        {title: '睡觉', complete: false},
-        {title: '玩游戏', complete: true}
-      ]
+      todos: JSON.parse(window.localStorage.getItem('todo_key') || '[]')
     }
+  },
+  watch: {
+    todos: {
+      deep: true,
+      handler: function (value) {
+        window.localStorage.setItem('todo_key', JSON.stringify(value))
+      }
+    }
+
   },
   methods: {
     addTodo (todo) {
@@ -29,6 +34,14 @@ export default {
     },
     delTodo (index) {
       this.todos.splice(index, 1)
+    },
+    delCheck () {
+      this.todos = this.todos.filter(todo => !todo.complete)
+    },
+    checkAll (isCheck) {
+      this.todos.forEach(todo => {
+        todo.complete = isCheck
+      })
     }
   }
 }
