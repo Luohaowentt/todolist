@@ -2,7 +2,7 @@
 <div class="footer">
   <el-checkbox  name="type" class="footer-checkbox" v-model="isCheckAll"></el-checkbox>
   <span>已完成 {{checkSize}} 件，总共 {{todos.length}} 件</span>
-  <el-button type="danger" plain class="btn_del_all" @click="delCheck">清除已完成事件</el-button>
+  <el-button type="danger" plain class="btn_del_all" @click="delCheck" v-if="checkSize">清除已完成事件</el-button>
 </div>
 </template>
 

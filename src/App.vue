@@ -10,21 +10,20 @@
 import TodoFooter from '@/components/todoFooter'
 import TodoMain from '@/components/todoMain'
 import TodoHeader from '@/components/todoHeader'
+import storageUtil from './util/storageUtil'
 
 export default {
   name: 'App',
   components: {TodoHeader, TodoMain, TodoFooter},
   data () {
     return {
-      todos: JSON.parse(window.localStorage.getItem('todo_key') || '[]')
+      todos: storageUtil.readTodos()
     }
   },
   watch: {
     todos: {
       deep: true,
-      handler: function (value) {
-        window.localStorage.setItem('todo_key', JSON.stringify(value))
-      }
+      handler: storageUtil.saveTodos
     }
 
   },
